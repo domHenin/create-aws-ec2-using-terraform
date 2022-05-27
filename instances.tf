@@ -5,8 +5,8 @@ data "aws_ssm_parameter" "application_ami" {
 }
 
 
-#AWS Instance - App Server 1
-resource "aws_instance" "app_server" {
+#AWS Instance - App Server Alpha
+resource "aws_instance" "app_server_alpha" {
   provider                    = aws.development
   ami                         = data.aws_ssm_parameter.application_ami.value
   instance_type               = var.instance_type
@@ -20,14 +20,25 @@ resource "aws_instance" "app_server" {
     delete_on_termination = false
   }
 
-  key_name = "migenjutsu_sandbox"
+  # key_name = "migenjutsu_sandbox_alpha"
 
   tags = {
-    Name = "app_server_1"
+    Name = "app_server_alpa"
   }
 }
 
+#AWS Instance - App Server Beta
+resource "aws_instance" "app_server_beta" {
+  provider                    = aws.development
+  ami                         = data.aws_ssm_parameter.application_ami.value
+  instance_type               = var.instance_type
+  vpc_security_group_ids      = [aws_security_group.sg_public.id]
+  subnet_id                   = aws_subnet.subnet_public.id
+  associate_public_ip_address = true
+  private_ip                  = "10.20.20.122"
+  # key_name                    = "migenjutsu_sandbox_beta"
 
-resource "aws_instance" "app_server2" {
-
+  tags = {
+    "Name" = "app_server_beta"
+  }
 }

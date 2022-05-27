@@ -52,7 +52,7 @@ resource "aws_route_table_association" "rt_ass_public" {
 #AWS Route Table Association - Private
 resource "aws_route_table_association" "rt_ass_private" {
   provider       = aws.development
-  subnet_id      = aws_subnet.subnet_private
+  subnet_id      = aws_subnet.subnet_private.id
   route_table_id = aws_route_table.route_table.id
 }
 
@@ -88,32 +88,6 @@ resource "aws_route" "internet_route" {
 #   }
 # }
 
-#AWS Security Group - Public
-resource "aws_security_group" "sg_public" {
-  provider    = aws.development
-  name        = "public_subnet_sg"
-  description = "public security group"
-
-  ingress {
-    description = "from my ip range"
-    from_port   = "3389"
-    to_port     = "3389"
-    protocol    = "tcp"
-    cidr_blocks = ["147.219.191.9/24"]
-  }
-
-  egress {
-    cidr_blocks = ["0.0.0.0/0"]
-    from_port   = "0"
-    protocol    = "-1"
-    to_port     = "0"
-  }
-
-  tags = {
-    "Name" = "public_security_group"
-  }
-}
-
 #AWS Network Interface ENI - Private
 # resource "aws_network_interface" "eni_private" {
 #   provider = aws.development
@@ -133,4 +107,20 @@ resource "aws_network_interface" "eni_public" {
   private_ips     = [var.private_ip_address]
   security_groups = [aws_security_group.sg_public.id]
 
+  tags = {
+    "Name" = "application_aplpha_nic"
+  }
+
+}
+
+
+#AWS Elastic IP 
+resource "aws_eip" "static_ip" {
+  provider          = aws.development
+  vpc               = true
+  network_interface = aws_network_interface.eni_public.id
+
+  tags = {
+    Name = "application_static_ip"
+  }
 }
