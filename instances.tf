@@ -7,10 +7,10 @@ data "aws_ssm_parameter" "application_ami" {
 
 #AWS Instance - App Server Alpha
 resource "aws_instance" "app_server_alpha" {
-  provider                    = aws.development
-  ami                         = data.aws_ssm_parameter.application_ami.value
-  instance_type               = var.instance_type
-  associate_public_ip_address = true
+  provider      = aws.development
+  ami           = data.aws_ssm_parameter.application_ami.value
+  instance_type = var.instance_type
+  # associate_public_ip_address = true
   # vpc_security_group_ids = [aws_security_group.sg_public.id]
   # subnet_id = aws_subnet.subnet_public.id
 

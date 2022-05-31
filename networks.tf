@@ -10,10 +10,10 @@ resource "aws_vpc" "vpc" {
 
 #AWS Subnet - Private 
 resource "aws_subnet" "subnet_private" {
-  provider          = aws.development
-  vpc_id            = aws_vpc.vpc.id
-  cidr_block        = "10.20.20.0/26"
-  availability_zone = "us-east-1a"
+  provider   = aws.development
+  vpc_id     = aws_vpc.vpc.id
+  cidr_block = "10.20.20.0/26"
+  # availability_zone = "us-east-1a"
 
   tags = {
     "Name" = "private_subnet"
@@ -22,10 +22,10 @@ resource "aws_subnet" "subnet_private" {
 
 #AWS Subnet - Public
 resource "aws_subnet" "subnet_public" {
-  provider          = aws.development
-  vpc_id            = aws_vpc.vpc.id
-  cidr_block        = "10.20.20.64/26"
-  availability_zone = "us-east-1a"
+  provider   = aws.development
+  vpc_id     = aws_vpc.vpc.id
+  cidr_block = "10.20.20.64/26"
+  # availability_zone = "us-east-1a"
 
   tags = {
     "Name" = "public_subnet"
