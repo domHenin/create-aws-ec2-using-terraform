@@ -3,6 +3,7 @@ resource "aws_security_group" "sg_public" {
   provider    = aws.development
   name        = "public_subnet_sg"
   description = "public security group"
+  vpc_id      = aws_vpc.vpc.id
 
   ingress {
     description = "from my ip range"
@@ -23,3 +24,15 @@ resource "aws_security_group" "sg_public" {
     "Name" = "public_security_group"
   }
 }
+
+# resource "aws_security_group" "sg_private" {
+#   provider = aws.development
+#   name = "private_subnet_sg"
+#   description = "private security group"
+#   subnet_id = aws_subnet.subnet_private.id
+
+#   ingress {
+
+#   }
+
+# }
